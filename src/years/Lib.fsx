@@ -2,10 +2,19 @@
 module Lib
 #endif
 
-open System.IO
+let inline logf fmt x =
+    printfn fmt x
+    x
 
 
-type Path with
+module Option =
+    let ofTryParse: bool * 'a -> 'a option =
+        function
+        | (false, _) -> None
+        | (true, x) -> Some x
 
-    static member combine (p1: string) (p2: string) : string =
-        Path.Combine(p1, p2)
+module ValueOption =
+    let ofTryParse: bool * 'a -> 'a voption =
+        function
+        | (false, _) -> ValueNone
+        | (true, x) -> ValueSome x

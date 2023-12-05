@@ -7,23 +7,27 @@ open System.IO
 
 
 let () =
+    let combinePath x y = Path.Combine(x, y)
+
     let dir =
-        DirectoryInfo(Path.combine __SOURCE_DIRECTORY__ "../years")
+        DirectoryInfo(combinePath __SOURCE_DIRECTORY__ "../years")
 
     let defaultFiles = [ ".gitkeep"; "input.txt" ]
 
     let makeDayFolderPath (parentDirPath: string) =
-        sprintf "d%i" >> Path.combine parentDirPath
-
+        sprintf "d%i" >> combinePath parentDirPath
 
     [ 2015..2023 ]
     |> List.map (string >> dir.CreateSubdirectory)
-    |> List.collect (fun x ->
-        let year = int x.Name
-
-        [ 1 .. DateTime.DaysInMonth(year, 12) ]
-        |> List.map (makeDayFolderPath x.FullName))
-    |> List.collect (fun x -> defaultFiles |> List.map (Path.combine x))
+    |> List.map (fun x ->
+        Int32.TryParse x.Name
+        |> Option.ofTryParse
+        |> Option.map (fun year ->
+            [ 1 .. DateTime.DaysInMonth(year, 12) ]
+            |> List.map (makeDayFolderPath x.FullName)))
+    |> List.filter Option.isSome
+    |> List.collect Option.get
+    |> List.collect (fun x -> defaultFiles |> List.map (combinePath x))
     |> List.map (FileInfo)
     |> List.filter (_.Exists >> not)
     |> List.map (fun x ->
