@@ -2,6 +2,20 @@
 module Lib
 #endif
 
+open System.IO
+
+/// only meant to be called within ./src/years/{year}/d{n}/p{n}.fsx
+let readInput directory =
+    Path.Combine(directory, "input.txt") |> File.ReadAllLines
+
+/// only meant to be called within ./src/years/{year}/d{n}/p{n}.fsx
+let readInputAsync directory =
+    task {
+        return!
+            Path.Combine(directory, "input.txt")
+            |> File.ReadAllLinesAsync
+    }
+
 let inline logf fmt x =
     printfn fmt x
     x
