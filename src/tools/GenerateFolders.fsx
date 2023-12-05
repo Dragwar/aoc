@@ -35,6 +35,10 @@ let () =
         x.Directory.Create()
         x.Create().Dispose()
         x)
+    |> List.map (
+        _.FullName
+        >> fun x -> Path.GetRelativePath(Directory.GetCurrentDirectory(), x)
+    )
     |> function
         | [] -> printfn "Files already exist"
-        | x -> printfn "Created:\n%A" x
+        | x -> x |> List.iter (printfn "%s")
