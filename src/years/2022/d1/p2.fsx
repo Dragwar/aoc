@@ -32,4 +32,4 @@ readInput __SOURCE_DIRECTORY__
 |> List.sortDescending
 |> List.take 3
 |> List.sum
-|> printfn "%A"
+|> logf "%A"

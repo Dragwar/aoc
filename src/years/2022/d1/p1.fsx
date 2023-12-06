@@ -31,4 +31,4 @@ readInput __SOURCE_DIRECTORY__
 |> _.Elfs
 |> List.sortDescending
 |> List.head
-|> printfn "%A"
+|> logf "%A"

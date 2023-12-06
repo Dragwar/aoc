@@ -79,3 +79,4 @@ readInput __SOURCE_DIRECTORY__
 |> Array.map (Outcome.fromRound >> snd)
 |> Array.map (fun (s, o) -> (Shape.weight s) + (Outcome.weight o))
 |> Array.sum
+|> logf "%A"
